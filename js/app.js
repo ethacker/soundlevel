@@ -17,8 +17,7 @@ angular.module("app", ["chart.js"]) // here i couldn't understand about chart.js
 "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","24:00"];
   $scope.series = ['Sound Levels'];
   $scope.data = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
+    [65, 59, 80, 81, 56, 55, 40,28, 48, 40, 19, 86, 27, 90, 45, 46, 47, 59, 60, 49, 140, 30, 25, 50]
   ];
   $scope.onClick = function (points, evt) {
     console.log(points, evt);

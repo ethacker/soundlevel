@@ -1,12 +1,15 @@
-
-angular.module("app", ["chart.js"]).controller("LineCtrl", function ($scope) {
-
-  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-  $scope.series = ['Series A'];
-  $scope.data = [
-    [65, 59, 80, 81, 56, 55, 40]
-  ];
-  $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
-});
+var app = angular.module("app", ["firebase"]);
+// inject $firebaseArray into our controller
+app.controller("LineCtrl", ["$scope", "$firebaseArray",
+  function($scope, $firebaseArray) {
+    var messagesRef = new Firebase("https://arduinosound.firebaseio.com/sensorvalue");
+    // download the data from a Firebase reference into a (pseudo read-only) array
+    // all server changes are applied in realtime
+    $scope.readings = $firebaseArray(messagesRef);
+    
+    // create a query for the most recent 25 messages on the server
+    var query = messagesRef.limitToLast(25);
+    // the $firebaseArray service properly handles database queries as well
+    $scope.filteredMessages = $firebaseArray(messagesRef.limitToLast(25));
+  }
+]);

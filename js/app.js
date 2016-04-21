@@ -17,7 +17,7 @@ $(function () {
 
         $('#container').highcharts({
             chart: {
-                height:500,
+                height:600,
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10,
@@ -43,15 +43,16 @@ $(function () {
                 tickPixelInterval: 100
             },
             yAxis: {
-                tickAmount: 20,
+                tickAmount: 25,
                 title: {
                     text: 'Decibel Level'
                 },
                 plotLines: [{
-                    value: 0,
                     width: 1,
-                    color: '#808080'
-                }]
+                    color: '#ff0000'
+                }],
+                max: 120,
+                min: 0
             },
             tooltip: {
                 formatter: function () {

@@ -68,7 +68,7 @@ $(function () {
                 enabled: false
             },
             series: [{
-                name: 'Random data',
+                name: 'Decibel Reading',
                 data: (function () {
                     // bs data to seed the chart
                     var data = [],

@@ -69,7 +69,7 @@ $(function () {
             series: [{
                 name: 'Random data',
                 data: (function () {
-                    // generate an array of random data
+                    // bs data to seed the chart
                     var data = [],
                         time = (new Date()).getTime(),
                         i;
@@ -77,7 +77,7 @@ $(function () {
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
                             x: time + i * 1000,
-                            y: 40
+                            y: 50
                         });
                     }
                     return data;
@@ -86,3 +86,5 @@ $(function () {
         });
     });
 });
+
+////Made using highcharts http://www.highcharts.com/products/highcharts

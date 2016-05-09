@@ -1,6 +1,7 @@
 var soundRef = new Firebase('https://arduinosound.firebaseio.com/sensorvalue2');
 var totalSound;
 var count;
+var numUnsafe;
 var soundNode;
 var avg;
 var i;
@@ -20,17 +21,22 @@ function loadAverage(){
     count = 0;
     avg = 0;
     totalSound = 0;
+    numUnsafe = 0;
     soundRef.once("value",function(dataSnapshot){
         console.log(dataSnapshot.numChildren());
        dataSnapshot.forEach(function(childSnap){
             soundNode = childSnap.val();
             count++;
+            if(soundNode.value>60){
+                numUnsafe ++;
+            }
             totalSound += soundNode.value;
        });
 
-        console.log(totalSound);
+        console.log(numUnsafe);
         avg = totalSound/count;
         document.getElementById("avgSound").innerHTML = "Average Sound Level for Current Sensor: " + avg.toFixed(3);
+        document.getElementById("unsafe").innerHTML = "Number of Unsafe Readings: " + numUnsafe;
     });
 
 }

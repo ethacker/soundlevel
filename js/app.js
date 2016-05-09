@@ -1,13 +1,43 @@
 var soundRef = new Firebase('https://arduinosound.firebaseio.com/sensorvalue2');
-
+var totalSound;
+var count;
+var soundNode;
+var avg;
+var i;
+var whichSensor;
 $(function () {
 
-    $(document).ready(loadChart());
+    $(document).ready(function(){
+        loadChart();
+        loadAverage();
+    });
+    whichSensor = 2;
 
 })
+
+function loadAverage(){
+
+    count = 0;
+    avg = 0;
+    totalSound = 0;
+    soundRef.once("value",function(dataSnapshot){
+        console.log(dataSnapshot.numChildren());
+       dataSnapshot.forEach(function(childSnap){
+            soundNode = childSnap.val();
+            count++;
+            totalSound += soundNode.value;
+       });
+
+        console.log(totalSound);
+        avg = totalSound/count;
+        document.getElementById("avgSound").innerHTML = "Average Sound Level for Current Sensor: " + avg.toFixed(3);
+    });
+
+}
+
 function loadChart(){
 
-    var newPost;
+
     soundRef.on("child_added", function (snapshot) {
         newPost = snapshot.val();
     });
@@ -35,7 +65,6 @@ function loadChart(){
                         var x = (new Date()).getTime(), // current time
                             y = newPost.value;
                         series.addPoint([x, y], true, true);
-                        console.log("Time"+newPost.time + "  " + x)
                     }, 1000);
                 }
             }
@@ -90,11 +119,22 @@ function loadChart(){
             }())
         }]
     });
-
 }
 function toggleButton(){
-    soundRef = new Firebase('https://arduinosound.firebaseio.com/sensorvalue');
-    loadChart();
-    document.getElementById("sensorID").innerHTML = "Sensor 2";
+
+    if(whichSensor==2) {
+        soundRef = new Firebase('https://arduinosound.firebaseio.com/sensorvalue');
+        loadChart();
+        loadAverage();
+        document.getElementById("sensorID").innerHTML = "Sensor 1";
+        whichSensor = 1;
+    }
+    else{
+        soundRef = new Firebase('https://arduinosound.firebaseio.com/sensorvalue2')
+        loadChart();
+        loadAverage();
+        document.getElementById("sensorID").innerHTML = "Sensor 2"
+        whichSensor = 2;
+    }
 }
 ////Made using highcharts http://www.highcharts.com/products/highcharts
